@@ -27,8 +27,9 @@ node app.js
 
 ## Fase 1
 
-Endpoints de la API
-GET /api/hola: Devuelve un mensaje de saludo.
-GET /api/suma/:n1/:n2: Devuelve la suma de n1 y n2.
-POST /api/resta/:n1/:n2: Devuelve la diferencia entre n1 y n2.
-POST /api/nuevousuario: Registra un nuevo usuario con los detalles proporcionados en el cuerpo de la solicitud.
+Los endpoints de la API son los siguientes:
+
+- `GET /api/hola`: Devuelve un mensaje de saludo.
+- `GET /api/suma/:n1/:n2`: Acepta dos parámetros en la ruta y devuelve la suma de `n1` y `n2`.
+- `POST /api/resta/:n1/:n2`: Acepta dos parámetros en la ruta y devuelve la diferencia entre `n1` y `n2`.
+- `POST /api/nuevousuario`: Registra un nuevo usuario con los detalles proporcionados en el cuerpo de la solicitud.
