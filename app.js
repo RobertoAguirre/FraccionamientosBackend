@@ -8,6 +8,11 @@ const bcript = require("bcryptjs"); //bcript es un middleware que nos permite en
 const mongoose = require("mongoose"); //mongoose es un middleware que nos permite conectarnos a una base de datos de mongoDB
 const dotenv = require("dotenv"); //dotenv es un middleware que nos permite cargar variables de entorno
 
+dotenv.config({ path: "./config.env" }); //cargamos las variables de entorno
+
+// Aqui van mis rutas
+const userRoutes = require("./routes/userRoutes"); //importamos las rutas de usuario
+
 const app = express(); //inicializamos express
 app.use(cors()); //habilitamos cors. permite que un servidor pueda recibir peticiones de otro servidor
 
@@ -20,6 +25,20 @@ app.set("jwtkey", "A$per6uer.47"); //clave secreta para el token de autenticaci�
 // va a haber tantas rutas como modelos tengamos en la base de datos
 
 const port = 3001; //puerto en el que va a correr el servidor
+
+// Conexión a la base de datos
+const DB = process.env.DATABASE; //variable de entorno que contiene la url de la base de datos
+
+app.use("/api/users", userRoutes); //usamos las rutas de usuario
+
+mongoose
+  .connect(DB, {
+    useNewURLParser: true,
+  })
+  .then((connection) => {
+    // console.log(connection.Connection);
+    console.log("Conexión a la base de datos exitosa");
+  });
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost/:${port}`);
