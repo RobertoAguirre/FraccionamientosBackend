@@ -18,7 +18,7 @@ const app = express(); //inicializamos express
 app.use(cors()); //habilitamos cors. permite que un servidor pueda recibir peticiones de otro servidor
 
 app.use(express.json({ limit: "50mb" })); //habilitamos el uso de json en express
-app.use(express.static(`${__dirname}/public`)); //habilitamos el uso de archivos estáticos en express
+app.use(express.static(`${__dirname}/uploads`)); //habilitamos el uso de archivos estáticos en express
 
 app.set("jwtkey", "A$per6uer.47"); //clave secreta para el token de autenticación
 

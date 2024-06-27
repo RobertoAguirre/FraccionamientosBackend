@@ -1,18 +1,63 @@
 const express = require("express");
 const Fracc = require("../models/Fraccionamiento");
+const multer = require("multer");
 
 const { default: mongoose } = require("mongoose");
 const Fraccionamiento = require("../models/Fraccionamiento");
 
+const storage = multer.diskStorage({
+  // con destination le decimos a multer donde guardar los archivos
+  destination: function (req, files, cb) {
+    cb(null, "uploads/");
+  },
+  // con filename le damos un nombre a los archivos
+  //cb es el callback que se ejecuta cuando multer ya tiene el nombre del archivo
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
 const createFracc = async (req, res) => {
   let cuerpoRequest = req.body;
   const _fracc = await Fracc.exists({ nombreFracc: cuerpoRequest.nombreFracc });
+
   if (_fracc) {
     return res.status(400).json({
       ok: false,
-      message: "El ya existe",
+      message: "El fraccionamiento ya existe",
     });
   } else {
+    // funcion ternaria para verificar si se subió un archivo. Funciona asi:
+    // si req.file existe, entonces logo = req.file.path, si no, logo = null
+
+    const logo = req.file ? req.file.path : null;
+
+    // create a new field for the document in mongo db
+    const newField = {
+      test: "Test de prueba de creación de campo en fraccionamiento",
+    };
+
+    // UPdate field in Fracc
+
+    // return Fracc.updateOne(
+    //   { _id: req.params.id },
+    //   {
+    //     $set: {
+    //       nombreFracc: cuerpoRequest.nombreFracc,
+    //       direccion: cuerpoRequest.direccion,
+    //       NumeroCasas: cuerpoRequest.NumeroCasas,
+    //       tipoFraccionamiento: cuerpoRequest.tipoFraccionamiento,
+    //       zonasInteres: cuerpoRequest.zonasInteres,
+    //       casasHabitadas: cuerpoRequest.casasHabitadas,
+    //       logo: logo,
+    //     },
+    //   }
+
+    // updateFracc(req, res);
+
+    // se crea un nuev objeto de tipo Fracc
     const Fracc_new = new Fracc({
       nombreFracc: cuerpoRequest.nombreFracc,
       direccion: cuerpoRequest.direccion,
@@ -20,9 +65,11 @@ const createFracc = async (req, res) => {
       tipoFraccionamiento: cuerpoRequest.tipoFraccionamiento,
       zonasInteres: cuerpoRequest.zonasInteres,
       casasHabitadas: cuerpoRequest.casasHabitadas,
+      logo: String(logo),
+      // test: "Test de prueba de creación de campo en fraccionamiento",
     });
 
-    Fracc_new.save().then((createdFracc) => {
+    await Fracc_new.save().then((createdFracc) => {
       console.log(createdFracc._id);
       if (createdFracc) {
         res.status(201).json({
@@ -80,6 +127,7 @@ const updateFracc = async (req, res) => {
         tipoFraccionamiento: cuerpoRequest.tipoFraccionamiento,
         zonasInteres: cuerpoRequest.zonasInteres,
         casasHabitadas: cuerpoRequest.casasHabitadas,
+        logo: logo,
       },
     }
   ).then((result) => {
@@ -115,7 +163,8 @@ const router = express.Router();
 //endpoints
 router
   .route("/")
-  .post(createFracc) // with  this endpoint we can create a Fracc
+  // .post(createFracc) // with  this endpoint we can create a Fracc
+  .post(upload.single("logo"), createFracc) // with  this endpoint we can create a Fracc
   .get(getAll); // with  this endpoint we can get all Fracc
 
 router
