@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
   },
 });
 
-// const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
 const createServicio = async (req, res) => {
   let cuerpoRequest = req.body;
@@ -37,27 +37,22 @@ const createServicio = async (req, res) => {
 
     const logo = req.file ? req.file.path : null;
 
-    // create a new field for the document in mongo db
-    const newField = {
-      test: "Test de prueba de creación de campo en fraccionamiento",
-    };
-
     // se crea un nuev objeto de tipo Serv
     const Servicio_Object_New = new Servicio({
       nombreServicio: cuerpoRequest.nombreServicio,
-      nombreCompañia: cuerpoRequest.nombreCompañia,
+      nombreCompania: cuerpoRequest.nombreCompania,
       numeroContrato: cuerpoRequest.numeroContrato,
       frecuenciaPago: cuerpoRequest.frecuenciaPago,
       costoPorPago: cuerpoRequest.costoPorPago,
       idFraccionamiento: cuerpoRequest.idFraccionamiento,
       nombreFraccionamiento: cuerpoRequest.nombreFraccionamiento,
-      //   logo: String(logo),
+      logo: String(logo),
     });
 
     //Ejemplo
     // {
     //     "nombreServicio": "Electricidad",
-    //     "nombreCompañia": "CFE",
+    //     "nombreCompania": "CFE",
     //     "numeroContrato": "123456789",
     //     "frecuenciaPago": "Mensual",
     //     "costoPorPago": 500,
@@ -82,7 +77,7 @@ const createServicio = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-  const servs = await Servicio.find({}); //esto me trae todos los fracc
+  const servs = await Servicio.find({}); //esto me trae todos los servicios
   res.status(200).json({
     servicios: servs,
   });
@@ -96,13 +91,13 @@ const getServicio = async (req, res) => {
     { _id: id },
     {
       nombreServicio: 1,
-      nombreCompañia: 1,
+      nombreCompania: 1,
       numeroContrato: 1,
       frecuenciaPago: 1,
       costoPorPago: 1,
       idFraccionamiento: 1,
       nombreFraccionamiento: 1,
-      //   logo, 1
+      // logo, 1
     }
   );
   if (servicioEncontrado) {
@@ -120,7 +115,7 @@ const updateServicio = async (req, res) => {
     {
       $set: {
         nombreServicio: cuerpoRequest.nombreServicio,
-        nombreCompañia: cuerpoRequest.nombreCompañia,
+        nombreCompania: cuerpoRequest.nombreCompania,
         numeroContrato: cuerpoRequest.numeroContrato,
         frecuenciaPago: cuerpoRequest.frecuenciaPago,
         costoPorPago: cuerpoRequest.costoPorPago,
@@ -149,12 +144,13 @@ const delServicio = async (req, res) => {
       tipoFraccionamiento: 1,
       zonasInteres: 1,
       casasHabitadas: 1,
-      //   logo, 1
+      // logo, 1
     }
   );
   if (servicioEliminado) {
     res.status(200).json({
       servicio: servicioEliminado,
+      msg: "Servicio eliminado",
     });
   }
 };
@@ -163,14 +159,21 @@ const router = express.Router();
 //endpoints
 router
   .route("/")
-  .post(createServicio) // with  this endpoint we can create a Fracc
-  //   .post(upload.single("logo"), createServicio) // with  this endpoint we can create a Fracc
-  .get(getAll); // with  this endpoint we can get all Fracc
+  // .post(createServicio) // with  this endpoint we can create a Serv
+  .post(upload.single("logo"), createServicio) // with  this endpoint we can create
+  .get(getAll); // with  this endpoint we can get all Serv
 
 router
   .route("/:id")
-  .patch(updateServicio) //  with  this endpoint we can update a Fracc
-  .delete(delServicio) //  with  this endpoint we can delete Fracc
+
+  // Update requires all required  fields: nombreServicio, nombreCompania, numeroContrato, frecuenciaPago, costoPorPago, idFraccionamiento, nombreFraccionamiento
+  .patch(updateServicio) //  with  this endpoint we can update
+  .put(updateServicio) //  with  this endpoint we can update
+
+  // Delete requires the id of the Servicio
+  .delete(delServicio) //  with  this endpoint we can delete
+
+  // Get requires the id of the Servicio
   .get(getServicio); //
 
 router.route("/").get(getAll);
