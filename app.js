@@ -13,6 +13,7 @@ dotenv.config({ path: "./config.env" }); //cargamos las variables de entorno
 // Aqui van mis rutas
 const userRoutes = require("./routes/userRoutes"); //importamos las rutas de usuario
 const FraccRoutes = require("./routes/FraccionamientoRoutes"); //importamos las rutas de fraccionamiento
+const ServicioRoutes = require("./routes/ServicioRoutes"); //importamos las rutas de servicios
 
 const app = express(); //inicializamos express
 app.use(cors()); //habilitamos cors. permite que un servidor pueda recibir peticiones de otro servidor
@@ -32,6 +33,7 @@ const DB = process.env.DATABASE; //variable de entorno que contiene la url de la
 
 app.use("/api/users", userRoutes); //usamos las rutas de usuario
 app.use("/api/fracc", FraccRoutes); //usamos las rutas de fraccionamiento
+app.use("/api/servicios", ServicioRoutes); //usamos las rutas de servicios
 
 mongoose
   .connect(DB, {
