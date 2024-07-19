@@ -166,7 +166,7 @@ router
 router
   .route("/:id")
 
-  // Update requires all required  fields: nombreServicio, nombreCompania, numeroContrato, frecuenciaPago, costoPorPago, idFraccionamiento, nombreFraccionamiento
+  // Patch y PUT son para actualizar
   .patch(updateServicio) //  with  this endpoint we can update
   .put(updateServicio) //  with  this endpoint we can update
 
