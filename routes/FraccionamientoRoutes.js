@@ -73,12 +73,12 @@ const createFracc = async (req, res) => {
       console.log(createdFracc._id);
       if (createdFracc) {
         res.status(201).json({
-          msg: "Usuario creado",
+          msg: "Fraccionamiento creado",
           FraccID: createdFracc._id,
         });
       } else {
         res.status(500).json({
-          msg: "Error al crear usuario",
+          msg: "Error al crear Fraccionamiento",
         });
       }
     });
