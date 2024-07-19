@@ -33,6 +33,7 @@ const DB = process.env.DATABASE; //variable de entorno que contiene la url de la
 app.use("/api/users", userRoutes); //usamos las rutas de usuario
 app.use("/api/fracc", FraccRoutes); //usamos las rutas de fraccionamiento
 
+
 mongoose
   .connect(DB, {
     useNewURLParser: true,
