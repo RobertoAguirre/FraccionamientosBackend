@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 
-const HouseSchema = new mongoose.Shcema(
+const HouseSchema = new mongoose.Schema(
     {
         idFracc:{
             type:String,
@@ -37,6 +37,10 @@ const HouseSchema = new mongoose.Shcema(
         paymentStatus:{
             type:Boolean,
             required:[true, "El estatus de pago es obligatorio"]
+        },
+        logo: {
+            type: String,
+            required: [false, "Favor de subier el Logo del fraccionamiento"],
         }
     }
 );

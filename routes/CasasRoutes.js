@@ -21,7 +21,7 @@ const upload = multer({ storage: storage });
 
 const createHouse = async (req, res) => {
     let cuerpoRequest = req.body;
-    const _house = await house.exists({ nombreFracc: cuerpoRequest.nombreFracc });
+    const _house = await house.exists({ houseNumber: cuerpoRequest.houseNumber });
 
     if (_house) {
     return res.status(400).json({
@@ -38,22 +38,6 @@ const createHouse = async (req, res) => {
     const newField = {
         test: "Test de prueba de creación de campo en casa",
     };
-
-        // UPdate field in Fracc
-
-    // return Fracc.updateOne(
-    //   { _id: req.params.id },
-    //   {
-    //     $set: {
-    //       nombreFracc: cuerpoRequest.nombreFracc,
-    //       direccion: cuerpoRequest.direccion,
-    //       NumeroCasas: cuerpoRequest.NumeroCasas,
-    //       tipoFraccionamiento: cuerpoRequest.tipoFraccionamiento,
-    //       zonasInteres: cuerpoRequest.zonasInteres,
-    //       casasHabitadas: cuerpoRequest.casasHabitadas,
-    //       logo: logo,
-    //     },
-    //   }
 
     // updateFracc(req, res);
 
@@ -75,7 +59,7 @@ const createHouse = async (req, res) => {
             if (createdHouse) {
                 res.status(201).json({
                 msg: "Casa creada",
-                FraccID: createdHouse._id,
+                HouseID: createdHouse._id,
                 });
             } else {
                 res.status(500).json({
@@ -85,3 +69,100 @@ const createHouse = async (req, res) => {
             });
             }
         };
+
+        const getAll = async (req, res) => {
+            const houses = await house.find({}); //esto me trae todos los fracc
+            res.status(200).json({
+            houses: houses,
+            });
+            };
+            
+            const getHouse = async (req, res) => {
+            console.log(req.params);
+            const id = req.params.id;
+                
+            const houseFound = await house.find(
+                { _id: id },
+                {
+                idFracc:1,
+                houseNumber: 1,
+                houseAdress: 1,
+                familyName: 1,
+                houseOwner: 1,
+                familyMembers: 1,
+                paymentStatus: 1,
+
+                }
+            );
+            if (houseFound) {
+                res.status(200).json({
+                house: houseFound,
+                });
+            }
+            };
+            
+            const updateHouse = async (req, res) => {
+            let cuerpoRequest = req.body;
+                
+            return house.updateOne(
+                { _id: req.params.id },
+                {
+                $set: {
+                    idFracc:cuerpoRequest.idFracc,
+                    houseNumber: cuerpoRequest.houseNumber,
+                    houseAdress: cuerpoRequest.houseAdress,
+                    familyName: cuerpoRequest.familyName,
+                    houseOwner: cuerpoRequest.houseOwner,
+                    familyMembers: cuerpoRequest.familyMembers,
+                    paymentStatus: cuerpoRequest.paymentStatus,
+                    //logo: logo,
+                },
+                }
+            ).then((result) => {
+                res.status(200).json({
+                msg: "Casa actualizada",
+                });
+            });
+            };
+            
+            const delHouse = async (req, res) => {
+            console.log(req.params);
+            const id = req.params.id;
+                
+            const deleteHouse = await house.deleteOne(
+                { _id: id },
+                {
+                idFracc:1,
+                houseNumber: 1,
+                houseAdress: 1,
+                familyName: 1,
+                houseOwner: 1,
+                familyMembers: 1,
+                paymentStatus: 1,
+                }
+            );
+            if (deleteHouse) {
+                res.status(200).json({
+                house: deleteHouse,
+                });
+            }
+            };
+            
+            const router = express.Router();
+            //endpoints
+            router
+            .route("/")
+            // .post(createFracc) // with  this endpoint we can create a Fracc
+            .post(upload.single("logo"), createHouse) // with  this endpoint we can create a Fracc
+            .get(getAll); // with  this endpoint we can get all Fracc
+            
+            router
+            .route("/:id")
+            .patch(updateHouse) //  with  this endpoint we can update a Fracc
+            .delete(delHouse) //  with  this endpoint we can delete Fracc
+            .get(getHouse); //
+            
+            router.route("/").get(getAll);
+            
+            module.exports = router;
+                
