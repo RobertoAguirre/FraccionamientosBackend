@@ -25,10 +25,10 @@ const ServicioSchema = new mongoose.Schema({
     type: String,
     required: [true, "El ID del fraccionamiento es obligatorio"],
   },
-  nombreFraccionamiento: {
-    type: String,
-    required: [true, "El nombre del fraccionamiento es obligatorio"],
-  },
+  // nombreFraccionamiento: {
+  //   type: String,
+  //   required: [true, "El nombre del fraccionamiento es obligatorio"],
+  // },
   logo: {
     type: String,
     required: [false, "Favor de subier el Logo del fraccionamiento"],
