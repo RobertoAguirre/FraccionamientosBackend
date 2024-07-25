@@ -33,54 +33,5 @@ const ServicioSchema = new mongoose.Schema({
     type: String,
     required: [false, "Favor de subier el Logo del fraccionamiento"],
   },
-  // servicios: {
-  //   luz: {
-  //     type: Boolean,
-  //     required: [true, "Es obligatorio especificar si hay servicio de luz"],
-  //   },
-  //   agua: {
-  //     type: Boolean,
-  //     required: [true, "Es obligatorio especificar si hay servicio de agua"],
-  //   },
-  //   gas: {
-  //     type: Boolean,
-  //     required: [true, "Es obligatorio especificar si hay servicio de gas"],
-  //   },
-  //   telefono: {
-  //     type: Boolean,
-  //     required: [
-  //       true,
-  //       "Es obligatorio especificar si hay servicio de teléfono",
-  //     ],
-  //   },
-  //   internet: {
-  //     type: Boolean,
-  //     required: [
-  //       true,
-  //       "Es obligatorio especificar si hay servicio de internet",
-  //     ],
-  //   },
-  //   alcantarillado: {
-  //     type: Boolean,
-  //     required: [
-  //       true,
-  //       "Es obligatorio especificar si hay servicio de alcantarillado",
-  //     ],
-  //   },
-  //   recoleccionBasura: {
-  //     type: Boolean,
-  //     required: [
-  //       true,
-  //       "Es obligatorio especificar si hay servicio de recolección de basura",
-  //     ],
-  //   },
-  //   vigilancia: {
-  //     type: Boolean,
-  //     required: [
-  //       true,
-  //       "Es obligatorio especificar si hay servicio de vigilancia",
-  //     ],
-  //   },
-  // },
 });
 module.exports = mongoose.model("Servicio", ServicioSchema); //exportar el modelo de fracc

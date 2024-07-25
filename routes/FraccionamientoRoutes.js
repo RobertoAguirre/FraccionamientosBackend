@@ -161,6 +161,7 @@ const delFracc = async (req, res) => {
 
 const router = express.Router();
 //endpoints
+
 router
   .route("/")
   // .post(createFracc) // with  this endpoint we can create a Fracc
