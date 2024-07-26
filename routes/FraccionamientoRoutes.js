@@ -99,7 +99,8 @@ const getFracc = async (req, res) => {
   const fraccEncontrado = await Fracc.find(
     { _id: id },
     {
-      Fraccname: 1,
+      nombreFracc: 1,
+      // Fraccname: 1,
       direccion: 1,
       NumeroCasas: 1,
       tipoFraccionamiento: 1,
@@ -161,6 +162,7 @@ const delFracc = async (req, res) => {
 
 const router = express.Router();
 //endpoints
+
 router
   .route("/")
   // .post(createFracc) // with  this endpoint we can create a Fracc
