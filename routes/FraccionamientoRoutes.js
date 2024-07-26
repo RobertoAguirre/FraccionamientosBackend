@@ -39,25 +39,7 @@ const createFracc = async (req, res) => {
       test: "Test de prueba de creación de campo en fraccionamiento",
     };
 
-    // UPdate field in Fracc
-
-    // return Fracc.updateOne(
-    //   { _id: req.params.id },
-    //   {
-    //     $set: {
-    //       nombreFracc: cuerpoRequest.nombreFracc,
-    //       direccion: cuerpoRequest.direccion,
-    //       NumeroCasas: cuerpoRequest.NumeroCasas,
-    //       tipoFraccionamiento: cuerpoRequest.tipoFraccionamiento,
-    //       zonasInteres: cuerpoRequest.zonasInteres,
-    //       casasHabitadas: cuerpoRequest.casasHabitadas,
-    //       logo: logo,
-    //     },
-    //   }
-
-    // updateFracc(req, res);
-
-    // se crea un nuev objeto de tipo Fracc
+  
     const Fracc_new = new Fracc({
       nombreFracc: cuerpoRequest.nombreFracc,
       direccion: cuerpoRequest.direccion,
@@ -127,7 +109,7 @@ const updateFracc = async (req, res) => {
         tipoFraccionamiento: cuerpoRequest.tipoFraccionamiento,
         zonasInteres: cuerpoRequest.zonasInteres,
         casasHabitadas: cuerpoRequest.casasHabitadas,
-        logo: logo,
+       logo: logo,
       },
     }
   ).then((result) => {

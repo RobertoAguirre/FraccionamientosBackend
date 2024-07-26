@@ -100,6 +100,29 @@ const createHouse = async (req, res) => {
                 });
             }
             };
+            const getFraccHouses = async (req, res) => {
+                console.log(req.params);
+                const idfracc = req.params.idFracc;
+                    
+                const FraccHousesFound = await houseFracc.find(
+                    { idFracc: idfracc },
+                    {
+                    idfracc:1,
+                    houseNumber: 1,
+                    houseAdress: 1,
+                    familyName: 1,
+                    houseOwner: 1,
+                    familyMembers: 1,
+                    paymentStatus: 1,
+    
+                    }
+                );
+                if (FraccHousesFound) {
+                    res.status(200).json({
+                    house: FraccHousesFound,
+                    });
+                }
+                };
             
             const updateHouse = async (req, res) => {
             let cuerpoRequest = req.body;
@@ -160,9 +183,9 @@ const createHouse = async (req, res) => {
             .route("/:id")
             .patch(updateHouse) //  with  this endpoint we can update a Fracc
             .delete(delHouse) //  with  this endpoint we can delete Fracc
-            .get(getHouse); //
+            .get(getHouse) //
             
             router.route("/").get(getAll);
-            
+            router.route("/:idFracc").get(getFraccHouses);
             module.exports = router;
                 
