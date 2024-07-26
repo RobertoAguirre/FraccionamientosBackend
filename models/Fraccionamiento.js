@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const FraccionamientoSchema = new mongoose.Schema({
